@@ -24,11 +24,13 @@ const App = () => {
   const handleGood = () =>{ setGood(good + 1); setAll(allClicks.concat(1))}
   const handleNeutral = () =>{setNeutral(neutral + 1); setAll(allClicks.concat(0))}
   const handleBad = () =>{setBad(bad + 1); setAll(allClicks.concat(-1))}
+  //gets average of feedback provided
   const getAvg = (allClicks) => {
     const total =allClicks.reduce((acc, c) => acc+ c, 0);
     return total / allClicks.length;
   }
-
+  //calculates what percentage of feedback is good
+  const posFeedback = (good / allClicks.length) * 100
 
 
   return (
@@ -46,6 +48,7 @@ const App = () => {
         <Display counter={bad} text="bad"/>
         <Display counter={allClicks.length} text="all"/>
         <Display counter={getAvg(allClicks)} text="average" />
+        <span><Display counter={posFeedback} text="positive"/></span>
       </div>
     </div>
   )
