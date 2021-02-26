@@ -1,1 +1,1 @@
-My submision for exercises 1.1 and 1.2
+My courseinfo submission
