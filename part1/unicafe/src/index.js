@@ -1,17 +1,40 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Display = ({counter, text}) =>{
+const Statistic = ({value, text}) =>{
   
-   return( <div> {text} {counter} </div>)
+   return( <div> {text} {value} </div>)
 } 
 
 const Button = ({onClick, text}) =>{
   
   return(
-  <button onClick={onClick}> {text} </button>
+  <button onClick={onClick}>{text}</button>
 )
   }
+const Statistics = ({good, bad, neutral}) =>{
+
+  const total = (good+bad+neutral)
+if (total > 0){
+  return(
+  <div>
+        <h1>statistics</h1>
+        <table><tbody>
+        <tr><Statistic value={good} text="good"/></tr>
+        <tr><Statistic value={neutral} text="neutral"/></tr>
+        <tr><Statistic value={bad} text="bad"/></tr>
+        <tr><Statistic value={total} text="all"/></tr>
+       <tr><Statistic value={(good-bad)/total} text="average" /></tr>
+       <tr><Statistic value={(good*100)/total + '%'} text="positive"/></tr>
+       </tbody></table>
+  </div>    
+)}
+else{
+  return(<h2>No input provided</h2>)
+}
+}
+
+
 
 
 const App = () => {
@@ -24,14 +47,6 @@ const App = () => {
   const handleGood = () =>{ setGood(good + 1); setAll(allClicks.concat(1))}
   const handleNeutral = () =>{setNeutral(neutral + 1); setAll(allClicks.concat(0))}
   const handleBad = () =>{setBad(bad + 1); setAll(allClicks.concat(-1))}
-  //gets average of feedback provided
-  const getAvg = (allClicks) => {
-    const total =allClicks.reduce((acc, c) => acc+ c, 0);
-    return total / allClicks.length;
-  }
-  //calculates what percentage of feedback is good
-  const posFeedback = (good / allClicks.length) * 100
-
 
   return (
     <div>
@@ -41,15 +56,13 @@ const App = () => {
         <Button onClick={handleNeutral}text="neutral"/>
         <Button onClick={handleBad} text="bad"/>
       </div>
+      <br></br>
       <div>
-        <h1>statistics</h1>
-        <Display counter={good} text="good"/>
-        <Display counter={neutral} text="neutral"/>
-        <Display counter={bad} text="bad"/>
-        <Display counter={allClicks.length} text="all"/>
-        <Display counter={getAvg(allClicks)} text="average" />
-        <span><Display counter={posFeedback} text="positive"/></span>
-      </div>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
+
+    </div>
+
+  
     </div>
   )
 }
